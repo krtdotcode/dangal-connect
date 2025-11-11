@@ -1,0 +1,33 @@
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.form-select {
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  padding: 0.5rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-select:focus {
+  border-color: #000000;
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25);
+}
+
+
+
+.btn-dark {
+  background-color: #000000;
+  border-color: #000000;
+}
+
+.btn-dark:hover {
+  background-color: #333333;
+  border-color: #333333;
+}
+
+.btn-dark:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+}
