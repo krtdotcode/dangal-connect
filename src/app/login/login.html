@@ -1,0 +1,58 @@
+<div class="container-fluid d-flex align-items-center justify-content-center py-3 py-sm-4 min-vh-100">
+  <div class="row justify-content-center w-100">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+      <div class="card shadow-sm border-0 mx-3 mx-sm-0">
+        <div class="card-body px-3 py-4 px-sm-4 py-sm-5">
+          <h1 class="logo mb-3 mb-sm-4">Dangal Connect</h1>
+          <p class="text-center text-muted mb-3 mb-sm-4 small">Connect with fellow Dangal ng Bayan</p>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="department" class="form-label fw-bold">College Department</label>
+              <select
+                id="department"
+                class="form-select"
+                formControlName="department"
+                required>
+                <option value="">Select Department</option>
+                <option *ngFor="let dept of departments" [value]="dept.name">{{ dept.name }}</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="program" class="form-label fw-bold">Program</label>
+              <select
+                id="program"
+                class="form-select"
+                formControlName="program"
+                required
+                [disabled]="!selectedPrograms.length">
+                <option value="">Select Program</option>
+                <option *ngFor="let program of selectedPrograms" [value]="program">{{ program }}</option>
+              </select>
+            </div>
+
+            <div class="mb-4">
+              <label for="year" class="form-label fw-bold">Year Level</label>
+              <select
+                id="year"
+                class="form-select"
+                formControlName="year"
+                required>
+                <option value="">Select Year</option>
+                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-dark w-100 py-2"
+              [disabled]="!loginForm.valid">
+              Connect
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
