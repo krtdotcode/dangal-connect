@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -57,7 +59,7 @@ export class Login {
   years = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
   selectedPrograms: string[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.loginForm = this.fb.group({
       department: ['', Validators.required],
       program: ['', Validators.required],
@@ -73,19 +75,15 @@ export class Login {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      // Store login data in session storage
-      const loginData = {
-        department: this.loginForm.value.department,
-        program: this.loginForm.value.program,
-        year: this.loginForm.value.year,
-        isLoggedIn: true,
-        loginTime: new Date().toISOString()
-      };
+      // Use auth service to login
+      this.authService.login(
+        this.loginForm.value.department,
+        this.loginForm.value.program,
+        this.loginForm.value.year
+      );
 
-      sessionStorage.setItem('dangalConnectUser', JSON.stringify(loginData));
-      
-      // Navigate to chat (this will be handled by route guards)
-      window.location.href = '/';
+      // Navigate to root (protected route)
+      this.router.navigate(['/']);
     }
   }
 }

@@ -1,33 +1,49 @@
-import { Component, signal, ViewChild, ElementRef, AfterViewChecked, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewChecked, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { AuthService, User } from './auth.service';
+import { Subscription } from 'rxjs';
+import { Login } from './login/login';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, FormsModule, RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, FormsModule, Login],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements AfterViewChecked, OnInit {
-  protected readonly title = signal('dangal-connect');
-
+export class App implements AfterViewChecked, OnInit, OnDestroy {
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
 
   isLoggedIn = false;
-  connectedUser = {
-    department: '',
-    program: '',
-    year: ''
-  };
-
+  connectedUser = { department: '', program: '', year: '' };
   messages: any[] = [];
   private shouldScrollToBottom = false;
-
   newMessage = '';
+  private authSubscription!: Subscription;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.checkLoginStatus();
+    // Subscribe to authentication state changes
+    this.authSubscription = this.authService.currentUser$.subscribe((user: User | null) => {
+      this.isLoggedIn = user !== null;
+      if (user) {
+        this.connectedUser = {
+          department: user.department,
+          program: user.program,
+          year: user.year
+        };
+      } else {
+        this.connectedUser = { department: '', program: '', year: '' };
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewChecked() {
@@ -36,33 +52,6 @@ export class App implements AfterViewChecked, OnInit {
       this.shouldScrollToBottom = false;
     }
   }
-
-  private checkLoginStatus() {
-    const userData = sessionStorage.getItem('dangalConnectUser');
-    if (userData) {
-      try {
-        const user = JSON.parse(userData);
-        if (user.isLoggedIn) {
-          this.isLoggedIn = true;
-          this.connectedUser = {
-            department: user.department,
-            program: user.program,
-            year: user.year
-          };
-        }
-      } catch (error) {
-        console.error('Error parsing user data:', error);
-        this.clearSession();
-      }
-    }
-  }
-
-  private clearSession() {
-    sessionStorage.removeItem('dangalConnectUser');
-    this.isLoggedIn = false;
-  }
-
-
 
   sendMessage() {
     if (this.newMessage.trim()) {
