@@ -74,4 +74,16 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
       console.error('Error scrolling to bottom:', err);
     }
   }
+
+  getDepartmentBgClass(): string {
+    const departmentClasses: { [key: string]: string } = {
+      'College of Arts and Sciences': 'bg-dept-maroon', // Maroon
+      'College of Business, Accountancy and Administration': 'bg-dept-yellow', // Yellow
+      'College of Computing Studies': 'bg-dept-orange', // Orange
+      'College of Education': 'bg-dept-blue', // Blue
+      'College of Engineering': 'bg-dept-red', // Red
+      'College of Health and Allied Sciences': 'bg-dept-green' // Green
+    };
+    return departmentClasses[this.connectedUser.department] || '';
+  }
 }

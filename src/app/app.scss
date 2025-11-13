@@ -54,10 +54,96 @@
   background-color: #f8f9fa;
   border-bottom: 1px solid #e0e0e0;
   padding: 1rem 0;
+  transition: background-color 0.3s ease;
 
   @media (max-width: 575.98px) {
     padding: 0.75rem 0;
   }
+}
+
+/* Department-specific background colors with adjusted text colors */
+.bg-dept-maroon {
+  background-color: #800000 !important; /* Maroon */
+  color: #ffffff !important;
+}
+
+.bg-dept-maroon .user-info-label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.bg-dept-maroon .user-program,
+.bg-dept-maroon .user-year {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.bg-dept-yellow {
+  background-color: #ffc107 !important; /* Yellow */
+  color: #000000 !important;
+}
+
+.bg-dept-yellow .user-info-label {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.bg-dept-yellow .user-program,
+.bg-dept-yellow .user-year {
+  color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.bg-dept-orange {
+  background-color: #ff5722 !important; /* Orange */
+  color: #ffffff !important;
+}
+
+.bg-dept-orange .user-info-label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.bg-dept-orange .user-program,
+.bg-dept-orange .user-year {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.bg-dept-blue {
+  background-color: #2196f3 !important; /* Blue */
+  color: #ffffff !important;
+}
+
+.bg-dept-blue .user-info-label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.bg-dept-blue .user-program,
+.bg-dept-blue .user-year {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.bg-dept-red {
+  background-color: #f44336 !important; /* Red */
+  color: #ffffff !important;
+}
+
+.bg-dept-red .user-info-label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.bg-dept-red .user-program,
+.bg-dept-red .user-year {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.bg-dept-green {
+  background-color: #4caf50 !important; /* Green */
+  color: #ffffff !important;
+}
+
+.bg-dept-green .user-info-label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.bg-dept-green .user-program,
+.bg-dept-green .user-year {
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .connected-user-display {
