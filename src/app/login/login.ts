@@ -73,7 +73,19 @@ export class Login {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log('Login Data:', this.loginForm.value);
+      // Store login data in session storage
+      const loginData = {
+        department: this.loginForm.value.department,
+        program: this.loginForm.value.program,
+        year: this.loginForm.value.year,
+        isLoggedIn: true,
+        loginTime: new Date().toISOString()
+      };
+
+      sessionStorage.setItem('dangalConnectUser', JSON.stringify(loginData));
+      
+      // Navigate to chat (this will be handled by route guards)
+      window.location.href = '/';
     }
   }
 }

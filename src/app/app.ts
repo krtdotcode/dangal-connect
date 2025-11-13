@@ -1,23 +1,24 @@
-import { Component, signal, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, signal, ViewChild, ElementRef, AfterViewChecked, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements AfterViewChecked {
+export class App implements AfterViewChecked, OnInit {
   protected readonly title = signal('dangal-connect');
 
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
 
-  // Mock connected user data - in real app this would come from auth service
+  isLoggedIn = false;
   connectedUser = {
-    department: 'College of Computing Studies',
-    program: 'Bachelor of Science in Computer Science',
-    year: '3rd Year'
+    department: '',
+    program: '',
+    year: ''
   };
 
   messages: any[] = [];
@@ -25,12 +26,43 @@ export class App implements AfterViewChecked {
 
   newMessage = '';
 
+  ngOnInit() {
+    this.checkLoginStatus();
+  }
+
   ngAfterViewChecked() {
     if (this.shouldScrollToBottom) {
       this.scrollToBottom();
       this.shouldScrollToBottom = false;
     }
   }
+
+  private checkLoginStatus() {
+    const userData = sessionStorage.getItem('dangalConnectUser');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        if (user.isLoggedIn) {
+          this.isLoggedIn = true;
+          this.connectedUser = {
+            department: user.department,
+            program: user.program,
+            year: user.year
+          };
+        }
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        this.clearSession();
+      }
+    }
+  }
+
+  private clearSession() {
+    sessionStorage.removeItem('dangalConnectUser');
+    this.isLoggedIn = false;
+  }
+
+
 
   sendMessage() {
     if (this.newMessage.trim()) {
