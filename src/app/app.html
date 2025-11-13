@@ -1,2 +1,60 @@
+<!-- Chat Interface Header -->
+<div class="chat-header">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-auto">
+        <h1 class="logo mb-0">Dangal Connect</h1>
+      </div>
+      <div class="col text-end">
+        <div class="connected-user-info">
+          <small class="text-muted d-block">{{ connectedUser.department }}</small>
+          <small class="text-muted d-block">{{ connectedUser.program }}</small>
+          <small class="text-muted d-block">{{ connectedUser.year }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<router-outlet />
+<!-- Chat Messages Area -->
+<div class="chat-messages">
+  <div class="container-fluid h-100">
+    <div class="messages-container" #messagesContainer>
+      <div class="message" *ngFor="let message of messages" [ngClass]="{'message-user': message.sender === 'user', 'message-system': message.sender === 'system'}">
+        <div class="message-content">
+          {{ message.text }}
+        </div>
+        <div class="message-time">
+          {{ message.timestamp | date:'shortTime' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Message Input Area -->
+<div class="chat-input">
+  <div class="container-fluid">
+    <div class="input-container">
+      <div class="row g-2 align-items-end">
+        <div class="col">
+          <textarea
+            class="form-control message-input"
+            rows="1"
+            placeholder="Type your message..."
+            [(ngModel)]="newMessage"
+            (keydown.enter)="sendMessage(); $event.preventDefault()"
+            #messageTextarea></textarea>
+        </div>
+        <div class="col-auto">
+          <button
+            class="btn btn-dark send-btn"
+            [disabled]="!newMessage.trim()"
+            (click)="sendMessage()">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
