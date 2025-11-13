@@ -18,10 +18,7 @@ export class App {
     year: '3rd Year'
   };
 
-  messages = [
-    { id: 1, text: 'Hey there! Welcome to Dangal Connect 👋', sender: 'system', timestamp: new Date() },
-    { id: 2, text: 'Feel free to share your thoughts or ask questions!', sender: 'system', timestamp: new Date() }
-  ];
+  messages: any[] = [];
 
   newMessage = '';
 

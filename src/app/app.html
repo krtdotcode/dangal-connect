@@ -2,15 +2,22 @@
 <div class="chat-header">
   <div class="container-fluid">
     <div class="row align-items-center">
-      <div class="col-auto">
+      <div class="col">
         <h1 class="logo mb-0">Dangal Connect</h1>
       </div>
-      <div class="col text-end">
-        <div class="connected-user-info">
-          <small class="text-muted d-block">{{ connectedUser.department }}</small>
-          <small class="text-muted d-block">{{ connectedUser.program }}</small>
-          <small class="text-muted d-block">{{ connectedUser.year }}</small>
-        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Connected User Info Section -->
+<div class="connected-user-section">
+  <div class="container-fluid">
+    <div class="connected-user-display">
+      <div class="user-info-label">Connected to:</div>
+      <div class="user-info-details">
+        <div class="user-department">{{ connectedUser.department }}</div>
+        <div class="user-program">{{ connectedUser.program }}</div>
+        <div class="user-year">{{ connectedUser.year }}</div>
       </div>
     </div>
   </div>
@@ -20,7 +27,20 @@
 <div class="chat-messages">
   <div class="container-fluid h-100">
     <div class="messages-container" #messagesContainer>
-      <div class="message" *ngFor="let message of messages" [ngClass]="{'message-user': message.sender === 'user', 'message-system': message.sender === 'system'}">
+      <!-- System Welcome Messages -->
+      <div class="message message-system">
+        <div class="message-content">
+          Welcome to Dangal Connect! 👋
+        </div>
+      </div>
+      <div class="message message-system">
+        <div class="message-content">
+          You're now connected with a fellow Dangal ng Bayan from University of Cabuyao. Share your campus experiences, study tips, or just have a friendly chat! 🎓
+        </div>
+      </div>
+
+      <!-- Dynamic User Messages -->
+      <div class="message message-user" *ngFor="let message of messages">
         <div class="message-content">
           {{ message.text }}
         </div>
