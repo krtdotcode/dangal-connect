@@ -82,8 +82,8 @@ export class Login {
         this.loginForm.value.year
       );
 
-      // Navigate to root (protected route)
-      this.router.navigate(['/']);
+      // Navigate to connection preferences
+      this.router.navigate(['/preferences']);
     }
   }
 }
