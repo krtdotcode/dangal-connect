@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { AuthService, User } from './auth.service';
 import { Subscription } from 'rxjs';
 import { Login } from './login/login';
+import { ConnectionPreferencesComponent } from './connection-preferences/connection-preferences';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, Login],
+  imports: [CommonModule, FormsModule, Login, ConnectionPreferencesComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -73,6 +74,15 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
     } catch (err) {
       console.error('Error scrolling to bottom:', err);
     }
+  }
+
+  shouldShowChat(): boolean {
+    return this.isLoggedIn && this.hasPreferences();
+  }
+
+  private hasPreferences(): boolean {
+    const preferences = sessionStorage.getItem('dangalConnectPreferences');
+    return preferences !== null;
   }
 
   getDepartmentBgClass(): string {
