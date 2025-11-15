@@ -1,6 +1,6 @@
 .card {
-  background-color: #ffffff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 20px rgba(13, 17, 23, 0.08);
   border: none;
   border-radius: 0 !important;
 }
@@ -72,8 +72,8 @@
 
 /* Button styling */
 .btn-dark {
-  background-color: #000000;
-  border: 2px solid #000000;
+  background-color: #0d1117;
+  border: 2px solid #0d1117;
   border-radius: 0 !important;
   font-weight: 600;
   font-size: 1rem;
@@ -96,13 +96,13 @@
 }
 
 .btn-dark:hover:not(:disabled) {
-  background-color: #333333;
-  border-color: #333333;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #161b22;
+  border-color: #161b22;
+  box-shadow: 0 4px 12px rgba(13, 17, 23, 0.15);
 }
 
 .btn-dark:active:not(:disabled) {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(13, 17, 23, 0.1);
 }
 
 .btn-dark:disabled {
