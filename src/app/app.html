@@ -1,5 +1,5 @@
-<!-- Conditionally render based on authentication state -->
-<div *ngIf="isLoggedIn; else loginComponent" class="chat-container">
+<!-- Conditionally render based on authentication and preferences state -->
+<div *ngIf="shouldShowChat(); else intermediateState" class="chat-container">
   <!-- Chat Interface Header -->
   <div class="chat-header">
     <div class="container-fluid">
@@ -83,7 +83,12 @@
   </div>
 </div>
 
-<!-- Login Component -->
-<ng-template #loginComponent>
-  <app-login></app-login>
+<!-- Intermediate State: Login or Preferences -->
+<ng-template #intermediateState>
+  <div *ngIf="!isLoggedIn; else preferencesComponent">
+    <app-login></app-login>
+  </div>
+  <ng-template #preferencesComponent>
+    <app-connection-preferences></app-connection-preferences>
+  </ng-template>
 </ng-template>

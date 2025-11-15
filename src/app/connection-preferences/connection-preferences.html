@@ -1,0 +1,78 @@
+<div class="container-fluid d-flex align-items-center justify-content-center py-3 py-sm-4 min-vh-100">
+  <div class="row justify-content-center w-100">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+      <div class="card shadow-sm border-0 mx-3 mx-sm-0">
+        <div class="card-body px-3 py-4 px-sm-4 py-sm-5">
+          <h1 class="logo mb-3 mb-sm-4">Dangal Connect</h1>
+          <p class="text-center text-muted mb-3 mb-sm-4 small">Set your connection preferences</p>
+
+          <form [formGroup]="preferencesForm" (ngSubmit)="onSubmit()">
+            <!-- Quick Connect Option -->
+            <div class="mb-4">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="connectWithAnyone"
+                  formControlName="connectWithAnyone">
+                <label class="form-check-label fw-bold" for="connectWithAnyone">
+                  Connect with anyone (random)
+                </label>
+              </div>
+              <div class="form-text text-muted small">
+                Find and connect with any available user instantly
+              </div>
+            </div>
+
+            <!-- Specific Preferences (disabled when "anyone" is selected) -->
+            <div *ngIf="!preferencesForm.value.connectWithAnyone" class="specific-preferences">
+              <div class="mb-3">
+                <label for="preferredDepartment" class="form-label fw-bold">Preferred Department</label>
+                <select
+                  id="preferredDepartment"
+                  class="form-select"
+                  formControlName="preferredDepartment"
+                  required>
+                  <option value="">Select Department</option>
+                  <option *ngFor="let dept of departments" [value]="dept.name">{{ dept.name }}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="preferredProgram" class="form-label fw-bold">Preferred Program</label>
+                <select
+                  id="preferredProgram"
+                  class="form-select"
+                  formControlName="preferredProgram"
+                  required
+                  [disabled]="!selectedPrograms.length">
+                  <option value="">Select Program</option>
+                  <option *ngFor="let program of selectedPrograms" [value]="program">{{ program }}</option>
+                </select>
+              </div>
+
+              <div class="mb-4">
+                <label for="preferredYear" class="form-label fw-bold">Preferred Year Level</label>
+                <select
+                  id="preferredYear"
+                  class="form-select"
+                  formControlName="preferredYear"
+                  required>
+                  <option value="">Select Year</option>
+                  <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                </select>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-dark w-100 py-2"
+              [disabled]="!isFormValid">
+              Start Connecting
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
