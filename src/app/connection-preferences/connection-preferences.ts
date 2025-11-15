@@ -93,6 +93,7 @@ export class ConnectionPreferencesComponent {
           preferredYear: ''
         });
       }
+      this.updateFormControlStates();
     });
   }
 
@@ -134,6 +135,22 @@ export class ConnectionPreferencesComponent {
     }
   }
 
+  private updateFormControlStates(): void {
+    const connectWithAnyone = this.preferencesForm.get('connectWithAnyone')?.value;
+
+    if (connectWithAnyone) {
+      // Disable specific preference controls when "connect with anyone" is selected
+      this.preferencesForm.get('preferredDepartment')?.disable();
+      this.preferencesForm.get('preferredProgram')?.disable();
+      this.preferencesForm.get('preferredYear')?.disable();
+    } else {
+      // Enable specific preference controls when "connect with anyone" is not selected
+      this.preferencesForm.get('preferredDepartment')?.enable();
+      this.preferencesForm.get('preferredProgram')?.enable();
+      this.preferencesForm.get('preferredYear')?.enable();
+    }
+  }
+
   get isFormValid(): boolean {
     const formValue = this.preferencesForm.value;
     if (formValue.connectWithAnyone) {
@@ -143,5 +160,10 @@ export class ConnectionPreferencesComponent {
     return formValue.preferredDepartment &&
            formValue.preferredProgram &&
            formValue.preferredYear;
+  }
+
+  ngOnInit(): void {
+    // Update form control states initially
+    this.updateFormControlStates();
   }
 }
