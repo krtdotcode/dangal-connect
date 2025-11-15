@@ -5,6 +5,14 @@
   border: none;
 }
 
+.logo {
+  font-size: 2.5rem !important;
+
+  @media (max-width: 575.98px) {
+    font-size: 2.2rem !important;
+  }
+}
+
 /* Form elements - mobile first */
 .form-select {
   border: 1px solid #e0e0e0;
