@@ -209,7 +209,6 @@
 .btn-end-chat {
   background-color: #000000;
   border: 2px solid #000000;
-  border-radius: 6px;
   color: #ffffff;
   font-weight: 600;
   font-size: 1rem;
@@ -249,7 +248,6 @@
     min-height: 44px;
     padding: 0.625rem 1rem;
     font-size: 0.9rem;
-    border-radius: 6px;
 
     span {
       display: none;
@@ -324,7 +322,6 @@
 .message-content {
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
   line-height: 1.4;
@@ -334,7 +331,6 @@
   @media (max-width: 575.98px) {
     padding: 0.625rem 0.875rem;
     font-size: 0.9rem;
-    border-radius: 6px;
   }
 }
 
@@ -384,7 +380,7 @@
 
 .message-input {
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border-radius: 0 !important;
   padding: 0.75rem;
   font-size: 1rem;
   resize: none;
@@ -407,14 +403,13 @@
     padding: 0.625rem;
     font-size: 1rem;
     min-height: 44px;
-    border-radius: 6px;
   }
 }
 
 .send-btn {
   background-color: #000000;
   border: 2px solid #000000;
-  border-radius: 8px;
+  border-radius: 0 !important;
   font-weight: 600;
   font-size: 0.95rem;
   min-height: 48px;
@@ -436,7 +431,6 @@
     min-height: 44px;
     padding: 0.625rem 1.25rem;
     font-size: 0.9rem;
-    border-radius: 6px;
   }
 }
 
@@ -471,9 +465,15 @@
   background: #a8a8a8;
 }
 
+.modal {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
 .modal-content {
   background-color: #ffffff;
-  border-radius: 8px;
+  border-radius: 0 !important;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
   border: none;
 }
@@ -494,7 +494,7 @@
 }
 
 .modal-footer .btn {
-  border-radius: 6px;
+  border-radius: 0 !important;
   font-weight: 500;
   font-size: 0.95rem;
   padding: 0.75rem 1.5rem;
