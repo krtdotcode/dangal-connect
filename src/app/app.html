@@ -1,5 +1,25 @@
-<!-- Conditionally render based on authentication and preferences state -->
-<div *ngIf="shouldShowChat(); else intermediateState" class="chat-container">
+<!-- Search Screen: Show when searching for connection -->
+<div *ngIf="isSearchingConnection && isLoggedIn && hasPreferences()" class="search-container">
+  <div class="container-fluid d-flex align-items-center justify-content-center py-3 py-sm-4 min-vh-100">
+    <div class="row justify-content-center w-100">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-sm border-0 mx-3 mx-sm-0">
+          <div class="card-body px-3 py-4 px-sm-4 py-sm-5 text-center">
+            <h1 class="logo mb-3 mb-sm-4">Dangal Connect</h1>
+            <p class="text-center text-muted mb-3 mb-sm-4 small">Searching for a Dangal ng Bayan to connect...</p>
+
+            <p class="text-center text-muted mb-3 mb-sm-4 small">
+              Please wait while we connect you to a fellow Dangal ng Bayan. This may take a few moments.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chat Interface: Show when connected -->
+<div *ngIf="!isSearchingConnection && shouldShowChat(); else intermediateState" class="chat-container">
   <!-- Chat Interface Header -->
   <div class="chat-header">
     <div class="container-fluid">

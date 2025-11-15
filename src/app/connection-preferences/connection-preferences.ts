@@ -130,8 +130,8 @@ export class ConnectionPreferencesComponent {
       // Store in session storage
       sessionStorage.setItem('dangalConnectPreferences', JSON.stringify(connectionPrefs));
 
-      // Navigate to dashboard/chat
-      this.router.navigate(['/dashboard']);
+      // Dispatch event to notify parent component to start searching
+      window.dispatchEvent(new CustomEvent('startSearchingConnection'));
     }
   }
 

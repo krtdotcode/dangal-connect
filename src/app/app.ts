@@ -25,6 +25,9 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
   showEndChatDialog = false;
   private authSubscription!: Subscription;
 
+  // Searching state
+  isSearchingConnection = false;
+
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
@@ -41,12 +44,28 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
         this.connectedUser = { department: '', program: '', year: '' };
       }
     });
+
+    // Listen for startSearchingConnection event from preferences component
+    window.addEventListener('startSearchingConnection', () => {
+      this.startSearchingConnection();
+    });
   }
 
   ngOnDestroy() {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
+  }
+
+  private startSearchingConnection(): void {
+    // Set searching state to true to show search UI
+    this.isSearchingConnection = true;
+
+    // In a real application, this would be handled by the backend matching algorithm
+    // For demonstration, we auto-connect after 10 seconds
+    setTimeout(() => {
+      this.isSearchingConnection = false;
+    }, 10000); // 10 seconds
   }
 
   ngAfterViewChecked() {
@@ -82,7 +101,7 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
     return this.isLoggedIn && this.hasPreferences();
   }
 
-  private hasPreferences(): boolean {
+  hasPreferences(): boolean {
     const preferences = sessionStorage.getItem('dangalConnectPreferences');
     return preferences !== null;
   }
