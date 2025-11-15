@@ -5,6 +5,7 @@ import { AuthService, User } from './auth.service';
 import { Subscription } from 'rxjs';
 import { Login } from './login/login';
 import { ConnectionPreferencesComponent } from './connection-preferences/connection-preferences';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
   messages: any[] = [];
   private shouldScrollToBottom = false;
   newMessage = '';
+  showEndChatDialog = false;
   private authSubscription!: Subscription;
 
   constructor(private authService: AuthService) {}
@@ -95,5 +97,28 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
       'College of Health and Allied Sciences': 'bg-dept-green' // Green
     };
     return departmentClasses[this.connectedUser.department] || '';
+  }
+
+  showEndChatModal() {
+    this.showEndChatDialog = true;
+  }
+
+  cancelEndChat() {
+    this.showEndChatDialog = false;
+  }
+
+  confirmEndChat() {
+    // Clear chat state
+    this.messages = [];
+    this.newMessage = '';
+
+    // Clear preferences to force return to preferences form
+    sessionStorage.removeItem('dangalConnectPreferences');
+
+    // Close dialog
+    this.showEndChatDialog = false;
+
+    // The component will automatically re-render to show preferences form
+    // since hasPreferences() will now return false
   }
 }
