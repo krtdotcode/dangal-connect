@@ -23,6 +23,7 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
   private shouldScrollToBottom = false;
   newMessage = '';
   showEndChatDialog = false;
+  showChatEndedDialog = false;
   private authSubscription!: Subscription;
 
   // Searching state
@@ -127,6 +128,12 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
   }
 
   confirmEndChat() {
+    // Close end chat dialog and show chat ended dialog
+    this.showEndChatDialog = false;
+    this.showChatEndedDialog = true;
+  }
+
+  proceedToConnectAgain() {
     // Clear chat state
     this.messages = [];
     this.newMessage = '';
@@ -135,7 +142,7 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
     sessionStorage.removeItem('dangalConnectPreferences');
 
     // Close dialog
-    this.showEndChatDialog = false;
+    this.showChatEndedDialog = false;
 
     // The component will automatically re-render to show preferences form
     // since hasPreferences() will now return false

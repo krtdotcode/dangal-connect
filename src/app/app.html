@@ -8,6 +8,9 @@
           <div class="card shadow-sm border-0 mx-3 mx-sm-0">
             <div class="card-body px-3 py-4 px-sm-4 py-sm-5 text-center">
               <h1 class="logo mb-3 mb-sm-4">Dangal Connect</h1>
+              <div class="mb-4">
+                <i class="fas fa-spinner fa-spin fa-3x"></i>
+              </div>
               <p class="text-center text-muted mb-3 mb-sm-4 small">Searching for a Dangal ng Bayan to connect...</p>
 
               <p class="text-center text-muted mb-3 mb-sm-4 small">
@@ -150,6 +153,32 @@
           (click)="confirmEndChat()">
           <i class="fas fa-sign-out-alt me-2"></i>
           End Chat
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chat Ended Notification Modal -->
+<div *ngIf="showChatEndedDialog" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.6);" (click)="proceedToConnectAgain()">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content border-0 shadow-sm">
+      <div class="modal-body text-center px-4 py-4">
+        <h5 class="modal-title mb-3 fw-bold">Chat Ended</h5>
+        <p class="text-muted mb-2">
+          Your chat session has ended. This could be because you chose to end the chat or due to a connection issue.
+        </p>
+        <p class="text-muted small mb-4">
+          You can connect with another Dangal ng Bayan anytime!
+        </p>
+      </div>
+      <div class="modal-footer justify-content-center border-0 px-4 pb-4">
+        <button
+          type="button"
+          class="btn btn-dark"
+          (click)="proceedToConnectAgain()">
+          <i class="fas fa-users me-2"></i>
+          Connect with More Dangal
         </button>
       </div>
     </div>
