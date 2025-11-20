@@ -1,0 +1,32 @@
+<!-- End Chat Confirmation Modal -->
+<div *ngIf="isVisible" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.6);" (click)="onCancel()">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content border-0 shadow-sm">
+      <div class="modal-body text-center px-4 py-4">
+        <h5 class="modal-title mb-3 fw-bold">End Current Chat?</h5>
+        <p class="text-muted mb-2">
+          This will terminate your active conversation and return you to the connection preferences where you can start new chats.
+        </p>
+        <p class="text-muted small mb-4">
+          Don't worry, you can always connect with more Dangal ng Bayan anytime!
+        </p>
+      </div>
+      <div class="modal-footer justify-content-center border-0 px-4 pb-4">
+        <button
+          type="button"
+          class="btn btn-outline-secondary me-2"
+          (click)="onCancel()">
+          <i class="fas fa-arrow-left me-2"></i>
+          Keep Chatting
+        </button>
+        <button
+          type="button"
+          class="btn btn-dark"
+          (click)="onConfirm()">
+          <i class="fas fa-sign-out-alt me-2"></i>
+          End Chat
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

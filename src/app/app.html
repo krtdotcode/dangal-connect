@@ -1,119 +1,18 @@
 <!-- Main Content Area: Show different states based on conditions -->
 <div class="main-content">
   <!-- Search Screen: Show when searching for connection -->
-  <div *ngIf="isSearchingConnection && isLoggedIn && hasPreferences()" class="search-container">
-    <div class="container-fluid d-flex align-items-center justify-content-center py-3 py-sm-4 min-vh-100">
-      <div class="row justify-content-center w-100">
-        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
-          <div class="card shadow-sm border-0 mx-3 mx-sm-0">
-            <div class="card-body px-3 py-4 px-sm-4 py-sm-5 text-center">
-              <h1 class="logo mb-3 mb-sm-4">Dangal Connect</h1>
-              <div class="mb-4">
-                <i class="fas fa-spinner fa-spin fa-3x"></i>
-              </div>
-              <p class="text-center text-muted mb-3 mb-sm-4 small">Searching for a Dangal ng Bayan to connect...</p>
-
-              <p class="text-center text-muted mb-3 mb-sm-4 small">
-                Please wait while we connect you to a fellow Dangal ng Bayan. This may take a few moments.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-search-container *ngIf="isSearchingConnection && isLoggedIn && hasPreferences()"></app-search-container>
 
   <!-- Chat Interface: Show when connected -->
-  <div *ngIf="!isSearchingConnection && shouldShowChat()">
-    <div class="chat-container">
-      <div class="chat-header">
-        <div class="container-fluid">
-          <div class="row align-items-center">
-            <div class="col">
-              <h1 class="logo mb-0">Dangal Connect</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="connected-user-section"
-           [ngClass]="getDepartmentBgClass()">
-        <div class="container-fluid">
-          <div class="connected-user-display">
-            <div class="user-info-label">Connected to:</div>
-            <div class="user-info-details">
-              <div class="user-department">{{ connectedUser.department }}</div>
-              <div class="user-program">{{ connectedUser.program }}</div>
-              <div class="user-year">{{ connectedUser.year }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="chat-messages">
-        <div class="container-fluid h-100">
-          <div class="messages-container" #messagesContainer>
-            <!-- System Welcome Messages -->
-            <div class="message message-system">
-              <div class="message-content">
-                Welcome to Dangal Connect! 👋
-              </div>
-            </div>
-            <div class="message message-system">
-              <div class="message-content">
-                You're now connected with a fellow Dangal ng Bayan from University of Cabuyao. Share your campus experiences, study tips, or just have a friendly chat! 🎓
-              </div>
-            </div>
-
-            <div class="message message-user" *ngFor="let message of messages">
-              <div class="message-content">
-                {{ message.text }}
-              </div>
-              <div class="message-time">
-                {{ message.timestamp | date:'shortTime' }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="chat-input">
-        <div class="container-fluid">
-          <div class="input-container">
-            <div class="row g-2 align-items-end">
-              <div class="col-auto">
-                <button
-                  class="btn-end-chat"
-                  (click)="showEndChatModal()"
-                  title="End current chat">
-                  <i class="fas fa-times"></i>
-                  <span class="d-none d-md-inline ms-1">End Chat</span>
-                </button>
-              </div>
-              <div class="col">
-                <textarea
-                  class="form-control message-input"
-                  rows="1"
-                  placeholder="Type your message..."
-                  [(ngModel)]="newMessage"
-                  (keydown.enter)="sendMessage(); $event.preventDefault()"
-                  #messageTextarea></textarea>
-              </div>
-              <div class="col-auto">
-                <button
-                  class="btn btn-dark send-btn"
-                  [disabled]="!newMessage.trim()"
-                  (click)="sendMessage()">
-                  <i class="fas fa-paper-plane"></i>
-                  <span class="ms-1">Send</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-chat-container
+    *ngIf="!isSearchingConnection && shouldShowChat()"
+    [connectedUser]="connectedUser"
+    [messages]="messages"
+    [newMessage]="newMessage"
+    (endChat)="onEndChat()"
+    (sendMessage)="onSendMessage($event)"
+    (messageChange)="onMessageChange($event)">
+  </app-chat-container>
 
   <!-- Intermediate State: Login or Preferences (only show if not searching and not showing chat) -->
   <div *ngIf="!isSearchingConnection && !shouldShowChat()" class="intermediate-state">
@@ -127,60 +26,14 @@
 </div>
 
 <!-- End Chat Confirmation Modal -->
-<div *ngIf="showEndChatDialog" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.6);" (click)="cancelEndChat()">
-  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
-    <div class="modal-content border-0 shadow-sm">
-      <div class="modal-body text-center px-4 py-4">
-        <h5 class="modal-title mb-3 fw-bold">End Current Chat?</h5>
-        <p class="text-muted mb-2">
-          This will terminate your active conversation and return you to the connection preferences where you can start new chats.
-        </p>
-        <p class="text-muted small mb-4">
-          Don't worry, you can always connect with more Dangal ng Bayan anytime!
-        </p>
-      </div>
-      <div class="modal-footer justify-content-center border-0 px-4 pb-4">
-        <button
-          type="button"
-          class="btn btn-outline-secondary me-2"
-          (click)="cancelEndChat()">
-          <i class="fas fa-arrow-left me-2"></i>
-          Keep Chatting
-        </button>
-        <button
-          type="button"
-          class="btn btn-dark"
-          (click)="confirmEndChat()">
-          <i class="fas fa-sign-out-alt me-2"></i>
-          End Chat
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<app-end-chat-modal
+  [isVisible]="showEndChatDialog"
+  (cancel)="cancelEndChat()"
+  (confirm)="confirmEndChat()">
+</app-end-chat-modal>
 
 <!-- Chat Ended Notification Modal -->
-<div *ngIf="showChatEndedDialog" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.6);" (click)="proceedToConnectAgain()">
-  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
-    <div class="modal-content border-0 shadow-sm">
-      <div class="modal-body text-center px-4 py-4">
-        <h5 class="modal-title mb-3 fw-bold">Chat Ended</h5>
-        <p class="text-muted mb-2">
-          Your chat session has ended. This could be because you chose to end the chat or due to a connection issue.
-        </p>
-        <p class="text-muted small mb-4">
-          You can connect with another Dangal ng Bayan anytime!
-        </p>
-      </div>
-      <div class="modal-footer justify-content-center border-0 px-4 pb-4">
-        <button
-          type="button"
-          class="btn btn-dark"
-          (click)="proceedToConnectAgain()">
-          <i class="fas fa-users me-2"></i>
-          Connect with More Dangal
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<app-chat-ended-modal
+  [isVisible]="showChatEndedDialog"
+  (confirm)="proceedToConnectAgain()">
+</app-chat-ended-modal>

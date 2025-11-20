@@ -1,26 +1,37 @@
-import { Component, ViewChild, ElementRef, AfterViewChecked, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { AuthService, User } from './auth.service';
 import { Subscription } from 'rxjs';
 import { Login } from './login/login';
 import { ConnectionPreferencesComponent } from './connection-preferences/connection-preferences';
+import { SearchContainer } from './search-container/search-container';
+import { ChatContainer } from './chat-container/chat-container';
+import { EndChatModal } from './end-chat-modal/end-chat-modal';
+import { ChatEndedModal } from './chat-ended-modal/chat-ended-modal';
+
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, Login, ConnectionPreferencesComponent],
+  imports: [
+    CommonModule,
+    Login,
+    ConnectionPreferencesComponent,
+    SearchContainer,
+    ChatContainer,
+    EndChatModal,
+    ChatEndedModal
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
+
 })
-export class App implements AfterViewChecked, OnInit, OnDestroy {
-  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
+export class App implements OnInit, OnDestroy {
 
   isLoggedIn = false;
   connectedUser = { department: '', program: '', year: '' };
   messages: any[] = [];
-  private shouldScrollToBottom = false;
   newMessage = '';
   showEndChatDialog = false;
   showChatEndedDialog = false;
@@ -69,33 +80,24 @@ export class App implements AfterViewChecked, OnInit, OnDestroy {
     }, 10000); // 10 seconds
   }
 
-  ngAfterViewChecked() {
-    if (this.shouldScrollToBottom) {
-      this.scrollToBottom();
-      this.shouldScrollToBottom = false;
-    }
-  }
-
-  sendMessage() {
-    if (this.newMessage.trim()) {
+  onSendMessage(message: string) {
+    if (message.trim()) {
       this.messages.push({
         id: this.messages.length + 1,
-        text: this.newMessage.trim(),
+        text: message.trim(),
         sender: 'user',
         timestamp: new Date()
       });
       this.newMessage = '';
-      this.shouldScrollToBottom = true;
     }
   }
 
-  private scrollToBottom(): void {
-    try {
-      const element = this.messagesContainer.nativeElement;
-      element.scrollTop = element.scrollHeight;
-    } catch (err) {
-      console.error('Error scrolling to bottom:', err);
-    }
+  onMessageChange(value: string) {
+    this.newMessage = value;
+  }
+
+  onEndChat() {
+    this.showEndChatModal();
   }
 
   shouldShowChat(): boolean {
