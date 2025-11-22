@@ -46,3 +46,10 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Firebase
+.firebase/
+.firebase.cache
+
+# Cache files
+.firebase/hosting.*.cache
