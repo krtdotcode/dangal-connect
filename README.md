@@ -1,59 +1,57 @@
-# DangalConnect
+# Dangal Connect
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+Dangal Connect is a platform designed to connect students from different departments at University of Cabuyao. The application fosters community among the student body, specifically the Dangal ng Bayan community, by providing a space to share experiences, knowledge, and meaningful interactions.
 
-## Development server
+## About the Application
 
-To start a local development server, run:
+Dangal Connect serves as a bridge between Dangal ng Bayan across various academic departments at University of Cabuyao, enabling students to connect with peers they might not otherwise meet through regular university activities. Whether you're looking to share study tips from experienced upperclassmen, discuss University of Cabuyao campus life, or simply make new friends within the Dangal ng Bayan community, Dangal Connect provides a safe and engaging environment for these interactions.
 
-```bash
-ng serve
-```
+## Key Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+**Preference-Based Matching**
+- Connect with students based on department and year preferences
+- Choose to connect with students from any department or specific ones that match your interests
+- Discover peers with similar academic backgrounds
 
-## Code scaffolding
+**Anonymous Chat Experience**
+- Real-time messaging with connected students
+- Private conversations between matched pairs
+- Temporary chat sessions that naturally conclude after a meaningful interaction
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+**User-Friendly Interface**
+- Simple preference setting for personalized connections
+- Clean, intuitive chat interface designed for seamless communication
+- Color-coded department identification to help recognize fellow students across programs
 
-```bash
-ng generate component component-name
-```
+## How It Works
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. **Set Your Preferences**: Choose your department and year, or indicate if you want to connect with anyone
+2. **Find a Connection**: The app matches you with another student based on compatibility preferences
+3. **Share and Connect**: Engage in conversation about study tips, campus experiences, or general university life
+4. **Natural Conclusions**: Chat sessions automatically end when one participant decides to finish, allowing new connections
 
-```bash
-ng generate --help
-```
+## Target Audience
 
-## Building
+Dangal Connect is specifically designed for students at University of Cabuyao, particularly those who want to:
+- Gain insights from peers in different academic programs
+- Share their own unique experiences with the campus community
+- Build connections with fellow students beyond their immediate academic circles
 
-To build the project run:
+## Usage Guidelines
 
-```bash
-ng build
-```
+- Respect fellow students and maintain appropriate, positive interactions
+- Use the platform for academic and social growth within the university community
+- Be authentic in sharing experiences and knowledge
+- Contribute positively to the Dangal ng Bayan community spirit
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Getting Started
 
-## Running unit tests
+Visit Dangal Connect to begin making meaningful connections with your fellow students. The platform is designed to be intuitive and requires minimal setup - simply set your preferences and you're ready to connect with the University of Cabuyao community.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Live Application
 
-```bash
-ng test
-```
+The application is deployed and available at: [https://dangal-connect.web.app](https://dangal-connect.web.app)
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Dangal Connect - Connecting the Dangal ng Bayan community through meaningful student interactions.
