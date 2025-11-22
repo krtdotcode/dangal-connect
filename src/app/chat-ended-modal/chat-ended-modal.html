@@ -1,0 +1,25 @@
+<!-- Chat Ended Notification Modal -->
+<div *ngIf="isVisible" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.6);" (click)="onConfirm()">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content border-0 shadow-sm">
+      <div class="modal-body text-center px-4 py-4">
+        <h5 class="modal-title mb-3 fw-bold">Chat Ended</h5>
+        <p class="text-muted mb-2">
+          Your chat session has ended. This could be because you chose to end the chat or due to a connection issue.
+        </p>
+        <p class="text-muted small mb-4">
+          You can connect with another Dangal ng Bayan anytime!
+        </p>
+      </div>
+      <div class="modal-footer justify-content-center border-0 px-4 pb-4">
+        <button
+          type="button"
+          class="btn btn-dark"
+          (click)="onConfirm()">
+          <i class="fas fa-users me-2"></i>
+          Connect with More Dangal
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

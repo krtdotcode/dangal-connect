@@ -1,0 +1,89 @@
+<!-- Chat Interface: Container for the chat functionality -->
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col">
+          <h1 class="logo mb-0">Dangal Connect</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connected-user-section"
+       [ngClass]="getDepartmentBgClass()">
+    <div class="container-fluid">
+      <div class="connected-user-display">
+        <div class="user-info-label">Connected to:</div>
+        <div class="user-info-details">
+          <div class="user-department">{{ connectedUser.department }}</div>
+          <div class="user-program">{{ connectedUser.program }}</div>
+          <div class="user-year">{{ connectedUser.year }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-messages">
+    <div class="container-fluid h-100">
+      <div class="messages-container" #messagesContainer>
+        <!-- System Welcome Messages -->
+        <div class="message message-system">
+          <div class="message-content">
+            Welcome to Dangal Connect! 👋
+          </div>
+        </div>
+        <div class="message message-system">
+          <div class="message-content">
+            You're now connected with a fellow Dangal ng Bayan from University of Cabuyao. Share your campus experiences, study tips, or just have a friendly chat! 🎓
+          </div>
+        </div>
+
+        <div class="message message-user" *ngFor="let message of messages">
+          <div class="message-content">
+            {{ message.text }}
+          </div>
+          <div class="message-time">
+            {{ message.timestamp | date:'shortTime' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <div class="container-fluid">
+      <div class="input-container">
+        <div class="row g-2 align-items-end">
+          <div class="col-auto">
+            <button
+              class="btn-end-chat"
+              (click)="onEndChat()"
+              title="End current chat">
+              <i class="fas fa-times"></i>
+              <span class="d-none d-md-inline ms-1">End Chat</span>
+            </button>
+          </div>
+          <div class="col">
+            <textarea
+              class="form-control message-input"
+              rows="1"
+              placeholder="Type your message..."
+              [(ngModel)]="localMessage"
+              (keydown.enter)="onSendMessage(); $event.preventDefault()"
+              #messageTextarea></textarea>
+          </div>
+          <div class="col-auto">
+            <button
+              class="btn btn-dark send-btn"
+              [disabled]="!localMessage.trim()"
+              (click)="onSendMessage()">
+              <i class="fas fa-paper-plane"></i>
+              <span class="ms-1">Send</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
