@@ -102,9 +102,9 @@ export class ConnectionPreferencesComponent {
     if (existingPrefs) {
       try {
         const prefs = JSON.parse(existingPrefs);
-        // If preferences exist, redirect to dashboard
+        // If preferences exist, redirect to main view (let app handle state)
         if (prefs.timestamp) {
-          this.router.navigate(['/dashboard']);
+          // No navigation needed as it's handled in app component
           return;
         }
       } catch (error) {

@@ -1,18 +1,16 @@
 <!-- Main Content Area: Show different states based on conditions -->
 <div class="main-content">
-  <!-- Search Screen: Show when searching for connection -->
-  <app-search-container *ngIf="isSearchingConnection && isLoggedIn && hasPreferences()"></app-search-container>
+<!-- Search Screen: Show when searching for connection -->
+<app-search-container *ngIf="isSearchingConnection && isLoggedIn && hasPreferences() && !(partner$ | async)"></app-search-container>
 
-  <!-- Chat Interface: Show when connected -->
-  <app-chat-container
-    *ngIf="!isSearchingConnection && shouldShowChat()"
-    [connectedUser]="connectedUser"
-    [messages]="messages"
-    [newMessage]="newMessage"
-    (endChat)="onEndChat()"
-    (sendMessage)="onSendMessage($event)"
-    (messageChange)="onMessageChange($event)">
-  </app-chat-container>
+<!-- Chat Interface: Show when connected -->
+<app-chat-container
+  *ngIf="!isSearchingConnection && shouldShowChat() && (partner$ | async)"
+  [connectedUser]="(partner$ | async)?.user || {}"
+  [messages]="(messages$ | async) || []"
+  (endChat)="onEndChat()"
+  (sendMessage)="onSendMessage($event)">
+</app-chat-container>
 
   <!-- Intermediate State: Login or Preferences (only show if not searching and not showing chat) -->
   <div *ngIf="!isSearchingConnection && !shouldShowChat()" class="intermediate-state">

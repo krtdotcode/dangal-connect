@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService, User } from './auth.service';
+import { FirebaseStorageService } from './firebase-storage.service';
+import { ChatMatchingService } from './chat-matching.service';
 import { Subscription } from 'rxjs';
 import { Login } from './login/login';
 import { ConnectionPreferencesComponent } from './connection-preferences/connection-preferences';
@@ -25,22 +27,26 @@ declare var bootstrap: any;
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
-
 })
 export class App implements OnInit, OnDestroy {
-
   isLoggedIn = false;
   connectedUser = { department: '', program: '', year: '' };
-  messages: any[] = [];
-  newMessage = '';
   showEndChatDialog = false;
   showChatEndedDialog = false;
   private authSubscription!: Subscription;
+  private partnerSubscription!: Subscription;
 
   // Searching state
   isSearchingConnection = false;
 
-  constructor(private authService: AuthService) {}
+  // Chat matching observables
+  partner$;
+  messages$;
+
+  constructor(private authService: AuthService, private firebaseStorage: FirebaseStorageService, public chatMatching: ChatMatchingService) {
+    this.partner$ = this.chatMatching.currentPartner$;
+    this.messages$ = this.chatMatching.messages$;
+  }
 
   ngOnInit() {
     // Subscribe to authentication state changes
@@ -57,6 +63,16 @@ export class App implements OnInit, OnDestroy {
       }
     });
 
+    // Subscribe to partner changes to stop searching when matched and show chat ended when disconnected
+    this.partnerSubscription = this.partner$.subscribe(partner => {
+      if (this.isSearchingConnection && partner) {
+        this.isSearchingConnection = false;
+      }
+      if (partner === null && this.isLoggedIn && this.hasPreferences()) {
+        this.showChatEndedDialog = true;
+      }
+    });
+
     // Listen for startSearchingConnection event from preferences component
     window.addEventListener('startSearchingConnection', () => {
       this.startSearchingConnection();
@@ -67,33 +83,35 @@ export class App implements OnInit, OnDestroy {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
+    if (this.partnerSubscription) {
+      this.partnerSubscription.unsubscribe();
+    }
   }
 
   private startSearchingConnection(): void {
     // Set searching state to true to show search UI
     this.isSearchingConnection = true;
 
-    // In a real application, this would be handled by the backend matching algorithm
-    // For demonstration, we auto-connect after 10 seconds
-    setTimeout(() => {
+    // Get user and preferences
+    const user = this.authService.getCurrentUser();
+    const prefsString = sessionStorage.getItem('dangalConnectPreferences');
+    const preferences = prefsString ? JSON.parse(prefsString) : {};
+
+    if (user && preferences) {
+      this.chatMatching.startMatching(user, preferences);
+    } else {
       this.isSearchingConnection = false;
-    }, 10000); // 10 seconds
+    }
   }
 
   onSendMessage(message: string) {
-    if (message.trim()) {
-      this.messages.push({
-        id: this.messages.length + 1,
-        text: message.trim(),
-        sender: 'user',
-        timestamp: new Date()
-      });
-      this.newMessage = '';
+    if (message.trim() && this.chatMatching.currentChatRoomId) {
+      this.chatMatching.sendMessage(message, this.chatMatching.sessionId);
     }
   }
 
   onMessageChange(value: string) {
-    this.newMessage = value;
+    // Not needed for now, service handles
   }
 
   onEndChat() {
@@ -130,6 +148,7 @@ export class App implements OnInit, OnDestroy {
   }
 
   confirmEndChat() {
+    this.chatMatching.endChat();
     // Close end chat dialog and show chat ended dialog
     this.showEndChatDialog = false;
     this.showChatEndedDialog = true;
@@ -137,14 +156,10 @@ export class App implements OnInit, OnDestroy {
 
   proceedToConnectAgain() {
     // Clear chat state
-    this.messages = [];
-    this.newMessage = '';
+    this.showChatEndedDialog = false;
 
     // Clear preferences to force return to preferences form
     sessionStorage.removeItem('dangalConnectPreferences');
-
-    // Close dialog
-    this.showChatEndedDialog = false;
 
     // The component will automatically re-render to show preferences form
     // since hasPreferences() will now return false

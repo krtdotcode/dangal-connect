@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterVie
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { ChatMatchingService } from '../chat-matching.service';
 
 export interface User {
   department: string;
@@ -10,7 +11,7 @@ export interface User {
 }
 
 export interface Message {
-  id: number;
+  id: string;
   text: string;
   sender: string;
   timestamp: Date;
@@ -37,15 +38,20 @@ export class ChatContainer implements AfterViewChecked, OnInit, OnChanges {
   localMessage: string = '';
   private shouldScrollToBottom = false;
 
+  constructor(public chatMatching: ChatMatchingService) {}
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes['newMessage'] && changes['newMessage'].currentValue === '') {
       this.localMessage = '';
     }
+    if (changes['messages']) {
+      // Auto-scroll when messages change (new message added)
+      this.shouldScrollToBottom = true;
+    }
   }
 
   ngOnInit() {
-    // Auto-scroll to bottom when component initializes
-    this.scrollToBottom();
+    // Auto-scroll will happen in ngAfterViewChecked when ViewChild is ready
   }
 
   ngAfterViewChecked() {

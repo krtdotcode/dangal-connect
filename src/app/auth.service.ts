@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { FirebaseStorageService } from './firebase-storage.service';
 
 export interface User {
   department: string;
@@ -17,7 +18,7 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private firebaseStorage: FirebaseStorageService) {
     this.checkInitialAuthState();
     this.monitorStorageChanges();
   }

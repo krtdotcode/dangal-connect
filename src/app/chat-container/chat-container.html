@@ -39,7 +39,7 @@
           </div>
         </div>
 
-        <div class="message message-user" *ngFor="let message of messages">
+        <div class="message" [ngClass]="message.sender === chatMatching.sessionId ? 'message-user' : 'message-partner'" *ngFor="let message of messages">
           <div class="message-content">
             {{ message.text }}
           </div>
